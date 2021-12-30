@@ -1,0 +1,40 @@
+﻿@model Weather
+@{
+    Layout = null;
+}
+
+<center>
+    <h2>הקלד עיר באנגלית כדי לגלות את מזג האוויר </h2>
+    @*this form gets us the city for our api. we call the controller, and accces our model with our fo*@
+    @using (Html.BeginForm("GetWeatherHebrew", "Weather", FormMethod.Get))
+    {
+        <label asp-for="City" class="control-label">שם העיר</label>
+        <input type="text" name="City" class="form-control" value="" />
+        <input type="submit" value="הכנס עיר" class="btn btn-primary" />
+        <input type="checkbox" id="metric" name="Unit" value="">
+        <label for="metric"> צלסיוס</label><br>
+    }
+    @if (Model.Icon == null)
+    {
+        <img src="@Html.Raw($"http://openweathermap.org/img/wn/02d@2x.png")" />
+    }
+    else
+    {
+        <img src="@Html.Raw($"http://openweathermap.org/img/wn/{Model.Icon}@2x.png")" />
+    }
+
+    <h3>מזג האוויר </h3>
+    <p>@Model.City, @Model.Country</p>
+    <p>@Model.Temp</p>
+    <p>@Model.FeelsLike :מרגיש כמו</p>
+    <p>גבוה של: @Model.TempMax</p>
+    <p>נמוך של: @Model.TempMin</p>
+
+    <div>
+        <iframe width="450"
+                height="250"
+                frameborder="0" style="border:0"
+                src="@Model.GoogleMapsUrl" @*allowfullscreen*@>
+        </iframe>
+    </div>
+</center>
